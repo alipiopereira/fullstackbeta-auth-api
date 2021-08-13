@@ -6,20 +6,20 @@ export default class AuthController {
     const { username, password } = request.all();
 
     try {
-      await auth.attemp(username, password);
+      await auth.attempt(username, password);
 
       return response.status(200).json({ msg: "Login realizado com sucesso!" });
     } catch (error) {
       response
         .status(401)
-        .json({ error: { auth }, msg: "Opa! Não foi possível fazer login." });
+        .json({ error: { error }, msg: "Opa! Não foi possível fazer login." });
     }
   }
 
   public async logout({ auth, response }) {
     await auth.logout();
 
-    return response.status(200).json({ error: auth, msg: "Logout realizado com sucesso" });
+    return response.status(200).json({ msg: "Logout realizado com sucesso" });
   }
 
   public async register({ request, auth, response }) {
@@ -45,11 +45,6 @@ export default class AuthController {
 
     await auth.login(user);
 
-    return response.status(200).json({ error: auth, msg: "Usuário cadastrado com sucesso" });
-  }
-
-  public async profile({ auth, response }) {
-    const profile = await auth.user.name;
-    response.status(200).json({ msg: `Username: ${profile}` });
+    return response.status(200).json({ msg: "Usuário cadastrado com sucesso" });
   }
 }
